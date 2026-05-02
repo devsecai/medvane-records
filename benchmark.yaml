@@ -1,0 +1,37 @@
+benchmark_id: medvane-records
+corpus_version: "0.1.0"
+industry: healthcare
+sub_industry: ehr
+frameworks: [HIPAA, HITECH, ISO-27799]
+
+findings:
+  sast:
+    - { id: MED-SAST-001, cwe: CWE-89,  severity: high,     file: src/main/java/io/medvane/PatientRepo.java }
+    - { id: MED-SAST-002, cwe: CWE-611, severity: high,     file: src/main/java/io/medvane/FhirImport.java }
+    - { id: MED-SAST-003, cwe: CWE-502, severity: critical, file: src/main/java/io/medvane/AdminCtl.java }
+    - { id: MED-SAST-004, cwe: CWE-798, severity: critical, file: src/main/resources/application.properties }
+    - { id: MED-SAST-005, cwe: CWE-22,  severity: high,     file: src/main/java/io/medvane/FilesCtl.java }
+    - { id: MED-SAST-006, cwe: CWE-918, severity: high,     file: src/main/java/io/medvane/Fetcher.java }
+    - { id: MED-SAST-007, cwe: CWE-117, severity: medium,   file: src/main/java/io/medvane/AuditLogger.java }
+    - { id: MED-SAST-008, cwe: CWE-327, severity: medium,   file: src/main/java/io/medvane/Crypto.java }
+    - { id: MED-SAST-009, cwe: CWE-352, severity: high,     file: src/main/java/io/medvane/SecCfg.java }
+    - { id: MED-SAST-010, cwe: CWE-79,  severity: medium,   file: src/main/resources/templates/profile.html }
+    - { id: MED-SAST-011, cwe: CWE-209, severity: low,      file: src/main/java/io/medvane/ErrorAdv.java }
+    - { id: MED-SAST-012, cwe: CWE-330, severity: medium,   file: src/main/java/io/medvane/Reset.java }
+  iac:
+    - { id: MED-IAC-001, class: s3-public,           file: infra/terraform/main.tf }
+    - { id: MED-IAC-002, class: rds-public,          file: infra/terraform/main.tf }
+    - { id: MED-IAC-003, class: rds-no-encrypt,      file: infra/terraform/main.tf }
+    - { id: MED-IAC-004, class: container-root,     file: Dockerfile }
+    - { id: MED-IAC-005, class: k8s-no-pod-security, file: infra/k8s/deployment.yaml }
+    - { id: MED-IAC-006, class: k8s-host-path,       file: infra/k8s/deployment.yaml }
+  sca:
+    - { id: MED-SCA-001, package: "org.apache.logging.log4j:log4j-core",    version: "2.14.1", advisory: "CVE-2021-44228" }
+    - { id: MED-SCA-002, package: "com.fasterxml.jackson.core:jackson-databind", version: "2.9.10", advisory: "CVE-2019-14540" }
+    - { id: MED-SCA-003, package: "org.springframework:spring-core",        version: "5.3.18", advisory: "CVE-2022-22965" }
+    - { id: MED-SCA-004, package: "org.yaml:snakeyaml",                     version: "1.32",   advisory: "CVE-2022-1471" }
+    - { id: MED-SCA-005, package: "commons-collections:commons-collections", version: "3.2.1", advisory: "CVE-2015-7501" }
+  pipeline:
+    - { id: MED-CI-001, class: hardcoded-secret,    file: .github/workflows/ci.yml }
+    - { id: MED-CI-002, class: insecure-mvn-repo,   file: .github/workflows/ci.yml }
+    - { id: MED-CI-003, class: pr-target-unsafe,    file: .github/workflows/ci.yml }

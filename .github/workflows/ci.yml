@@ -1,0 +1,22 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request_target: { branches: [main] }   # MED-CI-003
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # MED-CI-001
+      GHCR_TOKEN: ghp_BENCH_PLACEHOLDER
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-java@v4
+        with: { java-version: 17, distribution: temurin }
+      - name: Configure Maven repo
+        run: |
+          # MED-CI-002: insecure http repo
+          echo "<settings><mirrors><mirror><id>internal</id><url>http://maven.medvane.internal/repo</url><mirrorOf>*</mirrorOf></mirror></mirrors></settings>" > ~/.m2/settings.xml
+      - run: mvn -B package

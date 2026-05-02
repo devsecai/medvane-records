@@ -1,0 +1,9 @@
+<!-- MED-SAST-010: th:utext renders raw HTML; XSS sink. -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Patient Profile</title></head>
+<body>
+<h1>Profile</h1>
+<div th:utext="${patient.bio}"></div>
+</body>
+</html>

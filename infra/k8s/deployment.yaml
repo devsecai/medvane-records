@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medvane
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: medvane } }
+  template:
+    metadata:
+      labels: { app: medvane }
+    spec:
+      containers:
+        - name: app
+          image: medvane/api:latest
+          # MED-IAC-005: no securityContext, no resource limits, runs privileged by default.
+          volumeMounts:
+            - name: host-etc
+              mountPath: /host-etc
+      volumes:
+        # MED-IAC-006: hostPath volume of /etc.
+        - name: host-etc
+          hostPath: { path: /etc }

@@ -1,0 +1,18 @@
+// MED-SAST-009: CSRF disabled globally + permitAll on every route.
+package io.medvane;
+
+import org.springframework.context.annotation.*;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecCfg {
+    @Bean
+    public SecurityFilterChain filter(HttpSecurity http) throws Exception {
+        http.csrf(c -> c.disable())
+            .authorizeHttpRequests(a -> a.anyRequest().permitAll());
+        return http.build();
+    }
+}
