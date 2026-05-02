@@ -1,4 +1,4 @@
-benchmark_id: medvane-records
+demo_id: medvane-records
 corpus_version: "0.1.0"
 industry: healthcare
 sub_industry: ehr
